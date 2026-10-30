@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Newman Projection Studio — Think Organic</title>
+<style>
+:root{--bg:#05050a;--card:#101019;--fg:#eef0ff;--mut:#9094b4;--cy:#00bfff;--mg:#ff0da6;--or:#ff8c00;--ln:#262640;color-scheme:dark;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+html{background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:10px 14px;border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:12px}
+header img{height:48px;width:auto;display:block;border-radius:10px}
+header h1{margin:0;font-size:15px;font-weight:650;min-width:0}
+details summary{cursor:pointer;color:var(--mut);font-size:13px}.msg:empty{display:none}
+main{max-width:980px;margin:0 auto;padding:12px;display:grid;gap:12px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:12px}
+h2{margin:0 0 8px;font-size:14px;color:var(--cy);letter-spacing:.02em}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=text]{flex:1;min-width:0;background:#07070d;color:var(--fg);border:1px solid var(--ln);border-radius:10px;padding:11px;font:16px ui-monospace,Menlo,monospace}
+button{background:#17172a;color:var(--fg);border:1px solid #34345a;border-radius:10px;padding:10px 12px;font:600 14px system-ui,sans-serif;min-height:44px;cursor:pointer}
+button:active{background:#22224a}button.p{background:var(--cy);color:#00131d;border-color:var(--cy)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.chips button{min-height:36px;padding:6px 10px;font-weight:500;font-size:13px}
+.hint,.msg{font-size:13px;color:var(--mut);margin:8px 0 0}.msg.ok{color:#7dffb0}.msg.bad{color:#ffb86b}
+canvas{width:100%;display:block;background:#07070d;border-radius:10px;touch-action:none}
+#sk{height:190px;touch-action:manipulation}#v3{height:300px}
+.views{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:760px){.views{grid-template-columns:1fr 1fr}}
+#nb{position:relative;background:#07070d;border-radius:10px;margin-bottom:8px}
+#nw{width:100%;height:auto;max-height:340px;display:block}
+#cover{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:#07070df2;border-radius:10px;color:var(--mut);text-align:center;padding:16px;font-size:14px}
+#cover b{font-size:54px;color:var(--cy);line-height:1}
+.hid #cover{display:flex}.hid #nw{visibility:hidden}.hid .ans{filter:blur(7px);user-select:none}
+input[type=range]{width:100%;accent-color:var(--cy);height:34px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.stat{background:#07070d;border:1px solid var(--ln);border-radius:10px;padding:8px 10px}
+.stat small{display:block;color:var(--mut);font-size:12px}.stat b{font-size:16px}
+.note{font-size:12px;color:var(--mut);line-height:1.5}
+svg text{font:600 14px system-ui,sans-serif;paint-order:stroke;stroke:#07070d;stroke-width:4px;cursor:pointer}
+</style></head><body>
+<header><img src="data:image/jpeg;base64,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" alt="Think Organic — Dr. Fiby" width="340" height="176"><h1>Newman Projection Studio</h1></header>
+<main>
+<section class="card"><label for="smi">Molecule (SMILES)</label>
+<div class="row"><input type="text" id="smi" value="CCCC" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="SMILES"><button class="p" id="go">Load</button></div>
+<div class="chips" id="ex"></div>
+</section>
+
+<section class="card"><h2>1 · Tap a C–C bond</h2><canvas id="sk" aria-label="Skeletal structure"></canvas><p class="msg" id="msg"></p></section>
+
+<section class="card"><div class="views">
+<div><h2>3D model · drag to rotate</h2><canvas id="v3" aria-label="3D model"></canvas><div class="row" style="margin-top:8px"><button id="al">Look along the bond</button></div></div>
+<div><h2>Newman projection · tap a group to use it as reference</h2><div id="nb"><svg id="nw" viewBox="-150 -150 300 300"></svg><div id="cover"><b>?</b>Predict the projection from the 3D model, then reveal it.</div></div>
+<div class="row"><button id="rv">Reverse view</button><button id="hd">Hide to predict</button></div></div>
+</div></section>
+
+<section class="card"><h2>2 · Rotate the back carbon · 0° to 360° (clockwise)</h2>
+<input type="range" id="th" min="0" max="360" step="1" value="0" aria-label="Rotation angle">
+<div class="row"><button id="m60">−60°</button><button id="p60">+60°</button><label style="margin:0 0 0 6px;display:flex;gap:6px;align-items:center"><input type="checkbox" id="sn"> 60° steps</label></div>
+<div class="grid"><div class="stat"><small>Back carbon rotation</small><b id="r1">0°</b></div>
+<div class="stat ans"><small>Conformation</small><b id="r3">—</b></div></div>
+</section>
+
+<details class="card"><summary>About this tool</summary><p class="note">Rotation is a rigid torsion of the back fragment about the selected bond; bond lengths and angles are idealised and not energy-minimised, so strain and energies are not modelled. Anti and gauche names are shown only when both reference groups are not hydrogen. Stereocentres in SMILES are not specified, so one arbitrary enantiomer is drawn.</p></details>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const Z={H:1,C:6,N:7,O:8,F:9,P:15,S:16,Cl:17,Br:35,I:53},VAL={H:1,C:4,N:3,O:2,F:1,P:3,S:2,Cl:1,Br:1,I:1};
+const RAD={H:.31,C:.76,N:.71,O:.66,F:.57,P:1.07,S:1.05,Cl:1.02,Br:1.2,I:1.39};
+const DR={H:.24,C:.34,N:.33,O:.32,F:.3,P:.42,S:.42,Cl:.42,Br:.46,I:.5};
+const COL={C:'#00bfff',H:'#e8e8f4',O:'#ff3b3b',N:'#5b7bff',F:'#7dff7d',Cl:'#2bff4f',Br:'#d9482f',I:'#b266ff',S:'#ffd23f',P:'#ff9a3c'};
+const V={add:(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],mul:(a,k)=>[a[0]*k,a[1]*k,a[2]*k],
+dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],
+len:a=>Math.hypot(a[0],a[1],a[2]),nrm:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l]}};
+const rot=(v,k,deg)=>{const t=deg*Math.PI/180,c=Math.cos(t),s=Math.sin(t);return V.add(V.add(V.mul(v,c),V.mul(V.cross(k,v),s)),V.mul(k,V.dot(k,v)*(1-c)))};
+const blen=(a,b,o)=>(RAD[at[a].el]+RAD[at[b].el])*(o==1?1:o==2?.87:.78);
+let at=[],P0=[],P=[],L2={},bonds2=[],f=-1,b=-1,theta=0,refF=-1,refB=-1,backSet=[],hidden=false,vw,tween=0;
+
+/* ---------- 1. SMILES subset -> graph with explicit hydrogens ---------- */
+function parse(s){
+  s=s.trim();if(!s)throw'Enter a SMILES string.';
+  const A=[],st=[];let prev=-1,o=1,i=0;
+  const bond=(x,y,k)=>{A[x].nb.push({to:y,o:k});A[y].nb.push({to:x,o:k})};
+  while(i<s.length){const c=s[i];let el=null;
+    if(c==='C'&&s[i+1]==='l'){el='Cl';i++}else if(c==='B'&&s[i+1]==='r'){el='Br';i++}
+    else if('CNOFSPI'.includes(c))el=c;
+    else if(c==='('){st.push(prev);i++;continue}
+    else if(c===')'){if(!st.length)throw'Unbalanced parentheses.';prev=st.pop();i++;continue}
+    else if(c==='-'||c==='='||c==='#'){o={'-':1,'=':2,'#':3}[c];i++;continue}
+    else if(/[0-9%]/.test(c))throw'Rings are not supported in this prototype: they need RDKit 3D embedding (Phase 2).';
+    else throw'Unsupported SMILES character “'+c+'” (aromatic, charged, bracket and stereo SMILES are Phase 2).';
+    A.push({el,nb:[]});const n=A.length-1;if(prev>=0)bond(prev,n,o);o=1;prev=n;i++}
+  if(st.length)throw'Unbalanced parentheses.';
+  const n0=A.length;if(n0<2)throw'Enter at least two heavy atoms.';if(n0>24)throw'Prototype limit: 24 heavy atoms.';
+  for(let k=0;k<n0;k++){const h=VAL[A[k].el]-A[k].nb.reduce((t,x)=>t+x.o,0);
+    if(h<0)throw'Invalid valence on '+A[k].el+' (atom '+(k+1)+').';
+    for(let j=0;j<h;j++){A.push({el:'H',nb:[]});bond(k,A.length-1,1)}}
+  return A}
+const typ=i=>at[i].nb.some(x=>x.o==3)?'lin':at[i].nb.some(x=>x.o==2)?'pla':'tet';
+
+/* ---------- 2. ideal 3D coordinates for an acyclic tree (VSEPR directions) ---------- */
+function perp(a,v){let w=V.sub(v,V.mul(a,V.dot(a,v)));if(V.len(w)<1e-6)w=V.cross(a,Math.abs(a[0])<.9?[1,0,0]:[0,1,0]);return V.nrm(w)}
+function embed(){
+  const X=Array(at.length).fill(null),root=at.findIndex(a=>a.nb.length==1),c0=at[root].nb[0].to;
+  X[root]=[0,0,0];X[c0]=[blen(root,c0,at[root].nb[0].o),0,0];
+  const go=(x,p)=>{const a=V.nrm(V.sub(X[p],X[x])),sib=at[p].nb.find(n=>n.to!=x&&X[n.to]);
+    const r=perp(a,sib?V.sub(X[sib.to],X[p]):[0,1,0]),q=V.cross(a,r),kids=at[x].nb.filter(n=>n.to!=p),t=typ(x);
+    const ph0=(t=='tet'&&typ(p)=='tet')?60:0;                       /* staggered about tetrahedral parents */
+    kids.forEach((n,j)=>{const ang=(ph0+(t=='tet'?120:180)*j)*Math.PI/180,e=V.add(V.mul(r,Math.cos(ang)),V.mul(q,Math.sin(ang)));
+      const d=t=='tet'?V.add(V.mul(a,-1/3),V.mul(e,.9428)):t=='pla'?V.add(V.mul(a,-.5),V.mul(e,.866)):V.mul(a,-1);
+      X[n.to]=V.add(X[x],V.mul(d,blen(x,n.to,n.o)))});
+    kids.forEach(n=>go(n.to,x))};
+  go(c0,root);return X}
+
+/* ---------- 3. bond eligibility, fragments, torsion ---------- */
+function why(i,j){const A=at[i],B=at[j];if(A.el!='C'||B.el!='C')return'This prototype draws Newman projections for C–C bonds only.';
+  if(A.nb.find(n=>n.to==j).o>1)return'Double and triple bonds do not rotate freely (π bond), so there is no Newman rotation here.';
+  if(typ(i)!='tet'||typ(j)!='tet')return'This bond touches an sp² or sp carbon. Phase 1 supports sp³–sp³ bonds only.';return''}
+function frag(s,from){const out=[],go=(x,p)=>{out.push(x);at[x].nb.forEach(n=>{if(n.to!=p)go(n.to,x)})};go(s,from);return out}
+const heavy=s=>s.filter(i=>at[i].el!='H').length;
+const subs=(c,o)=>at[c].nb.filter(n=>n.to!=o).map(n=>n.to);
+const prio=a=>Z[at[a].el]*100+at[a].nb.length;
+function cur(){const k=V.nrm(V.sub(P0[b],P0[f])),O=P0[f];return P0.map((p,i)=>backSet.includes(i)?V.add(O,rot(V.sub(p,O),k,theta)):p)}
+function dih(p0,p1,p2,p3){const b0=V.sub(p0,p1),b1=V.nrm(V.sub(p2,p1)),b2=V.sub(p3,p2);
+  const v=V.sub(b0,V.mul(b1,V.dot(b0,b1))),w=V.sub(b2,V.mul(b1,V.dot(b2,b1)));return Math.atan2(V.dot(V.cross(b1,v),w),V.dot(v,w))*180/Math.PI}
+function basis(){const u=V.nrm(V.sub(P[b],P[f])),up=perp(u,V.sub(P[refF],P[f]));return{u,up,right:V.cross(u,up)}}
+function lab(s,from,d=0){const a=at[s];if(a.el=='H')return'H';const nh=a.nb.filter(n=>at[n.to].el=='H').length,ks=a.nb.filter(n=>n.to!=from&&at[n.to].el!='H');
+  let t=a.el+(nh>1?'H'+nh:nh==1?'H':'');
+  if(ks.length&&d<2){const ps=ks.map(k=>{const o=a.nb.find(n=>n.to==k.to).o;return(o==2?'=':o==3?'≡':'')+lab(k.to,s,d+1)});
+    t+=ps.slice(0,-1).map(x=>'('+x+')').join('')+ps[ps.length-1]}else if(ks.length)t+='…';return t}
+
+/* ---------- 4. selection ---------- */
+const msg=(t,k)=>{const m=$('#msg');m.textContent=t;m.className='msg '+(k||'')};
+function startAnti(){const d0=dih(P0[refF],P0[f],P0[b],P0[refB]);
+  for(const c of [180-d0,d0-180,180+d0,-180-d0]){theta=c;const Q=cur();if(Math.abs(Math.abs(dih(Q[refF],Q[f],Q[b],Q[refB]))-180)<1){P0=Q;break}}theta=0;$('#th').value=0}
+function select(i,j,keepView){const w=why(i,j);if(w){msg(w,'bad');return false}
+  f=i;b=j;P0=P.slice();theta=0;backSet=frag(b,f);
+  const pf=subs(f,b).sort((x,y)=>prio(y)-prio(x)),pb=subs(b,f).sort((x,y)=>prio(y)-prio(x));refF=pf[0];refB=pb[0];startAnti();msg('');
+  update();if(!keepView){const B=basis();vw={r:B.right,u:B.up,w:V.mul(B.u,-1)};vw.r=rot(vw.r,vw.u,58);vw.w=rot(vw.w,vw.u,58);vw.u=rot(vw.u,vw.r,-22);vw.w=rot(vw.w,vw.r,-22);draw3D()}return true}
+function load(smi){try{at=parse(smi)}catch(e){msg(String(e),'bad');return false}
+  P=P0=embed();L2=layout();f=-1;
+  const c=[];at.forEach((a,i)=>a.nb.forEach(n=>{if(n.to>i&&a.el=='C'&&at[n.to].el=='C'&&!why(i,n.to))c.push([i,n.to])}));
+  draw2D();if(!c.length){msg('No rotatable sp³–sp³ C–C bond found. Try butane, 2-bromobutane or ethanol.','bad');P=P0;f=-1;draw3D();$('#nw').innerHTML='';return false}
+  const tot=heavy(at.map((_,i)=>i));c.sort((p,q)=>Math.abs(heavy(frag(p[1],p[0]))-tot/2)-Math.abs(heavy(frag(q[1],q[0]))-tot/2));
+  return select(c[0][0],c[0][1])}
+
+/* ---------- 5. 2D skeletal view (bond picker) ---------- */
+function layout(){const hv=at.map((a,i)=>a.el!='H'?i:-1).filter(i=>i>=0),R={},hk=i=>at[i].nb.filter(n=>at[n.to].el!='H');
+  const s0=hv.find(i=>hk(i).length==1)??hv[0];R[s0]=[0,0];
+  const go=(x,p,ang,sg)=>{const ks=hk(x).filter(n=>n.to!=p).map(n=>n.to);
+    const off=ks.length==1?[sg*60]:ks.length==2?[-60,60]:[-60,0,60];
+    ks.forEach((k,j)=>{const a=(ang+off[j])*Math.PI/180;R[k]=[R[x][0]+Math.cos(a),R[x][1]+Math.sin(a)];go(k,x,ang+off[j],-sg)})};
+  const k0=hk(s0).map(n=>n.to);k0.forEach((k,j)=>{const a=(30+j*360/k0.length)*Math.PI/180;R[k]=[Math.cos(a),Math.sin(a)];go(k,s0,30+j*360/k0.length,1)});return R}
+function fit(c){const r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);return d}
+function draw2D(){const c=$('#sk'),d=fit(c),x=c.getContext('2d'),cw=c.width/d,ch=c.height/d;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,cw,ch);
+  const ids=Object.keys(L2).map(Number),xs=ids.map(i=>L2[i][0]),ys=ids.map(i=>L2[i][1]);
+  const bw=Math.max(1,Math.max(...xs)-Math.min(...xs)),bh=Math.max(.01,Math.max(...ys)-Math.min(...ys)),s=Math.min((cw-70)/bw,(ch-50)/bh,48);
+  const ox=cw/2-(Math.max(...xs)+Math.min(...xs))/2*s,oy=ch/2-(Math.max(...ys)+Math.min(...ys))/2*s;
+  const T=i=>[ox+L2[i][0]*s,oy+L2[i][1]*s];bonds2=[];x.lineCap='round';
+  ids.forEach(i=>at[i].nb.forEach(n=>{if(n.to>i&&L2[n.to]){const p=T(i),q=T(n.to),sel=(f==i&&b==n.to)||(f==n.to&&b==i),ok=!why(i,n.to);bonds2.push({i,j:n.to,p,q});
+    const dx=q[0]-p[0],dy=q[1]-p[1],l=Math.hypot(dx,dy),nx=-dy/l*3,ny=dx/l*3;
+    for(let k=0;k<n.o;k++){const e=(k-(n.o-1)/2);x.beginPath();x.moveTo(p[0]+nx*e,p[1]+ny*e);x.lineTo(q[0]+nx*e,q[1]+ny*e);
+      x.strokeStyle=sel?'#fff':ok?'#ff0da6':'#6b5b7a';x.lineWidth=sel?5:2.5;x.stroke()}}}));
+  ids.forEach(i=>{const p=T(i),e=at[i].el;if(e=='C'){x.fillStyle=(f==i||b==i)?'#fff':'#00bfff';x.beginPath();x.arc(p[0],p[1],f==i||b==i?5:3,0,7);x.fill()}
+    else{x.fillStyle='#101019';x.beginPath();x.arc(p[0],p[1],11,0,7);x.fill();x.fillStyle=COL[e];x.font='700 15px system-ui';x.textAlign='center';x.textBaseline='middle';x.fillText(e,p[0],p[1]+1)}})}
+$('#sk').addEventListener('click',ev=>{const r=ev.target.getBoundingClientRect(),X=ev.clientX-r.left,Y=ev.clientY-r.top;let best=null,bd=22;
+  bonds2.forEach(k=>{const dx=k.q[0]-k.p[0],dy=k.q[1]-k.p[1],t=Math.max(0,Math.min(1,((X-k.p[0])*dx+(Y-k.p[1])*dy)/(dx*dx+dy*dy))),d=Math.hypot(X-k.p[0]-t*dx,Y-k.p[1]-t*dy);if(d<bd){bd=d;best=k}});
+  if(best&&select(best.i,best.j))draw2D();else if(best)draw2D()});
+
+/* ---------- 6. 3D view (own canvas renderer; 3Dmol.js is the Phase 2 swap-in) ---------- */
+const mkView=(yaw,pit)=>{let r=[1,0,0],u=[0,1,0];r=rot(r,u,yaw);let w=V.cross(r,u);u=rot(u,r,pit);w=rot(w,r,pit);return{r,u,w}};
+vw=mkView(35,-22);
+function draw3D(){const c=$('#v3'),d=fit(c),x=c.getContext('2d'),W=c.width,H=c.height;x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,W,H);if(f<0||!P.length)return;
+  const mid=V.mul(V.add(P[f],P[b]),.5);let R=1;
+  const T=P.map(p=>{const e=V.sub(p,mid);R=Math.max(R,V.len(e)+.4);return[V.dot(e,vw.r),V.dot(e,vw.u),V.dot(e,vw.w)]});
+  const D=R*7,s=Math.min(W,H)/2/R*.95,pj=t=>{const k=D/(D-t[2]);return[W/2+t[0]*s*k,H/2-t[1]*s*k,k]};
+  const it=[];at.forEach((a,i)=>{it.push({a:i,z:T[i][2]});a.nb.forEach(n=>{if(n.to>i)it.push({i,j:n.to,o:n.o,z:(T[i][2]+T[n.to][2])/2})})});it.sort((p,q)=>p.z-q.z);x.lineCap='round';
+  const me=i=>at[i].el=='C'&&at[i].nb.filter(n=>at[n.to].el=='H').length==3,cl=i=>me(i)?'#ff8c00':COL[at[i].el];
+  it.forEach(o=>{if(o.a!==undefined){const i=o.a,[X,Y,k]=pj(T[i]),r=DR[at[i].el]*s*k,g=x.createRadialGradient(X-r*.35,Y-r*.35,r*.1,X,Y,r);
+      g.addColorStop(0,'#ffffffdd');g.addColorStop(.3,cl(i));g.addColorStop(1,'#00000099');x.fillStyle=g;x.beginPath();x.arc(X,Y,r,0,7);x.fill();
+      if(i==f||i==b){x.strokeStyle='#fff';x.lineWidth=2;x.beginPath();x.arc(X,Y,r+4,0,7);x.stroke();x.fillStyle='#fff';x.font='700 12px system-ui';x.textAlign='center';x.fillText(i==f?'FRONT':'BACK',X,Y-r-9)}}
+    else{const p=pj(T[o.i]),q=pj(T[o.j]),cc=at[o.i].el=='C'&&at[o.j].el=='C',sel=(o.i==f&&o.j==b)||(o.i==b&&o.j==f),w=Math.max(2.5,.13*s*(p[2]+q[2])/2);
+      const dx=q[0]-p[0],dy=q[1]-p[1],l=Math.hypot(dx,dy)||1;
+      if(sel){x.strokeStyle='#ffffff';x.lineWidth=w+6;x.beginPath();x.moveTo(p[0],p[1]);x.lineTo(q[0],q[1]);x.stroke()}
+      for(let k=0;k<o.o;k++){const e=(k-(o.o-1)/2)*w*1.1,nx=-dy/l*e,ny=dx/l*e;x.strokeStyle=cc?'#ff0da6':'#a9acd0';x.lineWidth=o.o>1?w*.6:w;
+        x.beginPath();x.moveTo(p[0]+nx,p[1]+ny);x.lineTo(q[0]+nx,q[1]+ny);x.stroke()}}})}
+(()=>{const c=$('#v3');let dn=null;c.addEventListener('pointerdown',e=>{dn=[e.clientX,e.clientY];c.setPointerCapture(e.pointerId)});
+  c.addEventListener('pointermove',e=>{if(!dn)return;const dx=e.clientX-dn[0],dy=e.clientY-dn[1];dn=[e.clientX,e.clientY];
+    vw.r=rot(vw.r,vw.u,dx*.6);vw.w=rot(vw.w,vw.u,dx*.6);vw.u=rot(vw.u,vw.r,dy*.6);vw.w=rot(vw.w,vw.r,dy*.6);draw3D()});
+  c.addEventListener('pointerup',()=>dn=null);c.addEventListener('pointercancel',()=>dn=null)})();
+function alignView(instant){if(f<0)return;const B=basis(),t={r:B.right,u:B.up,w:V.mul(B.u,-1)},s={r:vw.r,u:vw.u,w:vw.w},t0=performance.now(),id=++tween;
+  const step=now=>{if(id!=tween)return;let k=instant?1:Math.min(1,(now-t0)/700);k=k*k*(3-2*k);
+    const r=V.nrm(V.add(V.mul(s.r,1-k),V.mul(t.r,k)));let u=V.add(V.mul(s.u,1-k),V.mul(t.u,k));u=V.nrm(V.sub(u,V.mul(r,V.dot(u,r))));vw={r,u,w:V.cross(r,u)};draw3D();if(k<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step)}
+
+/* ---------- 7. Newman projection from the live 3D coordinates ---------- */
+function newman(){if(f<0)return;const B=basis(),pr=a=>{const e=V.sub(P[a],P[f]);return[V.dot(e,B.right),V.dot(e,B.up)]};
+  const F=subs(f,b),K=subs(b,f),rs=F.concat(K).map(a=>Math.hypot(...pr(a))),k=92/Math.max(...rs),R=.45*Math.min(...rs)*k;
+  const lc=a=>at[a].el=='C'?'#ff0da6':'#a9acd0',ln=(x1,y1,x2,y2,c)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;
+  let h='',tx='';const put=(a,from,isF)=>{const[x,y]=pr(a),l=Math.hypot(x,y),ux=x/l,uy=-y/l,X=x*k,Y=-y*k,ref=a==refF||a==refB;
+    h+=isF?'':ln(R*ux,R*uy,X,Y,lc(a));const cc=at[a].el=='C'&&at[a].nb.filter(n=>at[n.to].el=='H').length==3?'#ff8c00':COL[at[a].el];
+    tx+=`<text data-a="${a}" x="${X+ux*20}" y="${Y+uy*20+5}" text-anchor="middle" fill="${cc}"${ref?' text-decoration="underline"':''}>${lab(a,from)}</text>`;
+    return isF?ln(0,0,X,Y,lc(a)):''};
+  let fr='';K.forEach(a=>put(a,b,false));F.forEach(a=>fr+=put(a,f,true));
+  $('#nw').innerHTML=h+`<circle r="${R}" fill="none" stroke="#00bfff" stroke-width="4"/>`+fr+`<circle r="7" fill="#00bfff"/>`+tx+
+   `<text x="-146" y="-134" fill="#9094b4" style="font-size:11px;cursor:default;stroke-width:3px">dot = front C${f+1} · circle = back C${b+1}</text>`}
+$('#nw').addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(a===undefined)return;const i=+a;P0=cur();theta=0;if(subs(f,b).includes(i))refF=i;else refB=i;startAnti();update()});
+
+/* ---------- 8. readouts: arrangement + chemically appropriate names ---------- */
+function update(){if(f<0)return;P=cur();draw3D();draw2D();newman();
+  const B=basis(),ang=a=>{const e=V.sub(P[a],P[f]);return Math.atan2(V.dot(e,B.up),V.dot(e,B.right))*180/Math.PI};
+  const fa=subs(f,b).map(ang),ba=subs(b,f).map(ang);
+  const m=Math.min(...fa.flatMap(p=>ba.map(q=>{const d=Math.abs(p-q)%360;return d>180?360-d:d})));
+  const arr=Math.abs(m-60)<6?'Staggered':m<6?'Eclipsed':'Between conformations';
+  const A=Math.abs(dih(P[refF],P[f],P[b],P[refB])),named=at[refF].el!='H'&&at[refB].el!='H';
+  let name=arr;
+  if(named&&arr!='Between conformations')name=Math.abs(A-180)<6?'Anti (staggered)':Math.abs(A-60)<6?'Gauche (staggered)':Math.abs(A-120)<6?'Eclipsed':A<6?'Totally eclipsed':arr;
+  $('#r1').textContent=Math.round(theta)+'°';$('#r3').textContent=name;
+}
+function setTheta(v){theta=((v%360)+360)%360;if(v===360)theta=360;$('#th').value=Math.round(theta);update()}
+$('#th').addEventListener('input',e=>setTheta(+e.target.value));
+$('#m60').onclick=()=>setTheta(Math.round(theta/60)*60-60);$('#p60').onclick=()=>setTheta(Math.round(theta/60)*60+60);
+$('#sn').onchange=e=>{$('#th').step=e.target.checked?60:1;if(e.target.checked)setTheta(Math.round(theta/60)*60)};
+$('#al').onclick=()=>alignView(false);
+$('#rv').onclick=()=>{if(f<0)return;P0=cur();theta=0;[f,b]=[b,f];[refF,refB]=[refB,refF];backSet=frag(b,f);startAnti();update();alignView(false)};
+$('#hd').onclick=()=>{hidden=!hidden;$('#nb').parentElement.classList.toggle('hid',hidden);document.querySelectorAll('.ans').forEach(n=>n.style.filter=hidden?'blur(7px)':'');$('#hd').textContent=hidden?'Reveal':'Hide to predict'};
+const EX=[['Ethane','CC'],['Propane','CCC'],['Butane','CCCC'],['2-Methylbutane','CC(C)CC'],['2-Bromobutane','CCC(C)Br'],['1,2-Dichloroethane','ClCCCl'],['Ethanol','CCO'],['2,3-Dimethylbutane','CC(C)C(C)C'],['Pentane','CCCCC'],['3-Methylpentane','CCC(C)CC'],['2,2-Dimethylbutane','CCC(C)(C)C'],['1,2-Dibromoethane','BrCCBr'],['Ethylene glycol','OCCO']];
+EX.forEach(([n,s])=>{const k=document.createElement('button');k.textContent=n;k.onclick=()=>{$('#smi').value=s;load(s)};$('#ex').appendChild(k)});
+$('#go').onclick=()=>load($('#smi').value);$('#smi').addEventListener('keydown',e=>{if(e.key=='Enter')load(e.target.value)});
+addEventListener('resize',()=>{draw2D();draw3D()});
+window.studio={load,select,setTheta,state:()=>({f,b,theta,refF,refB,n:at.length})};
+load('CCCC');
+</script></body></html>
